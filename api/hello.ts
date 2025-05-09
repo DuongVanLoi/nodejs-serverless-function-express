@@ -84,8 +84,8 @@ function transformDataForLark(webDemoData: any[]): Array<{ fields: Record<string
         return {
             fields: {
                 // THAY "Tên Cột Trong Lark 1" bằng tên cột hoặc field ID thực tế
-                "Order Number": element[0] || '',
-                "Platform": element[1] || '',
+                "Order Number": element[1] || '',
+                //"Platform": element[1] || '',
                 // "Phone": element[2] || '',
                 // // "Cancellation Fee": formatCurrency(element[4]), // formatCurrency có thể cần điều chỉnh
                 // "Room Type": element[5] || '',
