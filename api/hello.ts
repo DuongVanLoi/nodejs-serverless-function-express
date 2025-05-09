@@ -7,6 +7,7 @@ const LARK_APP_ID = process.env.LARK_APP_ID || 'cli_a760e8cffc389029';
 const LARK_APP_SECRET = process.env.LARK_APP_SECRET || '5DkLrc6xvHH50utrIkoE4dUDjGvBX0ei';
 const LARK_BASE_APP_TOKEN = process.env.LARK_BASE_APP_TOKEN || 'FCEIbp9UPag1edsHp6elhUQhgqb'; // :app_token của Base
 const LARK_TABLE_ID = process.env.LARK_TABLE_ID || 'tblUi2kEEStEEX0t'; // :table_id của Bảng
+const DATA_FETCH_DAYS_AGO = 7;
 
 const WEB_DEMO_API_URL = 'https://1256763111-f2tvymu35g.ap-beijing.tencentscf.com/orderList';
 // --- KẾT THÚC CẤU HÌNH ---
