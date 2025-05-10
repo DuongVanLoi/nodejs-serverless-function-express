@@ -87,6 +87,7 @@ function transformDataForLark(webDemoDataArray: any[]): Array<{ fields: Record<s
             "Guest Name": String(element[10] || ''),
             "Check In" : String(getDay(element[7])),
             "Check Out" : String(getDay(element[8])),
+            "Price" : Number(formatCurrency(priceRaw)),
             //  "Platform": String(element[1] || ''),
             //  "Guest Name": String(element[10] || ''),
             //  "14Checking in Date auto": checkInTimestamp ? new Date(checkInTimestamp * 1000).getTime() : null,
@@ -191,6 +192,24 @@ async function sendDataToLarkBase(accessToken: string, records: Array<{ fields: 
 //     const day = String(date.getDate()).padStart(2, '0');
 //     return `${year}-${month}-${day}`;
 // }
+
+
+function formatCurrency(value) {
+        if (value === null || value === undefined || value === '') {
+            return '';
+        }
+        const numberValue = parseFloat(String(value).replace(/,/g, ''));
+        if (isNaN(numberValue)) {
+            return String(value); 
+        }
+        try {
+            return numberValue.toLocaleString('en-US', {
+                 maximumFractionDigits: 0
+            });
+        } catch (e) {
+            return String(numberValue); 
+        }
+    }
 
 
 function getDay (timestampInSeconds) {
