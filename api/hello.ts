@@ -89,7 +89,7 @@ function transformDataForLark(webDemoDataArray: any[]): Array<{ fields: Record<s
             "Check Out" : String(getDay(element[8])),
             "Price" : formatCurrency(Number(priceRaw)),
             "Room Type": String(element[5] || ''),
-            "Status Order": String(element[12] ? element[12] : 'Confirmed'),
+            //"Status Order": String(element[12] ? element[12] : 'Confirmed'),
             //  "Platform": String(element[1] || ''),
             //  "Guest Name": String(element[10] || ''),
             //  "14Checking in Date auto": checkInTimestamp ? new Date(checkInTimestamp * 1000).getTime() : null,
