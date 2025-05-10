@@ -91,6 +91,7 @@ function transformDataForLark(webDemoDataArray: any[]): Array<{ fields: Record<s
             "Room Type": String(element[5] || ''),
             "Status Order": String(element[12] ? element[12] : 'Confirmed'),
             "Cancellation Fee": formatCurrency(Number(cancelFeeRaw)),
+            "Booking Time" :String(getDay(element[6])),
 
             //  "Platform": String(element[1] || ''),
             //  "Guest Name": String(element[10] || ''),
