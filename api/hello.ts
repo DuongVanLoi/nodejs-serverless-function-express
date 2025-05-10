@@ -283,8 +283,8 @@ import fetch from 'node-fetch'; // yarn add node-fetch@2 hoặc npm install node
 
 // --- CẤU HÌNH BIẾN MÔI TRƯỜNG TRÊN VERCEL ---
 // Lưu trữ các giá trị này dưới dạng Environment Variables trên Vercel để bảo mật
-const LARK_APP_ID = process.env.LARK_APP_ID || 'cli_a760e8cffc389029';
-const LARK_APP_SECRET = process.env.LARK_APP_SECRET || '5DkLrc6xvHH50utrIkoE4dUDjGvBX0ei';
+const LARK_APP_ID = process.env.LARK_APP_ID || 'cli_a760fa9069b85010';
+const LARK_APP_SECRET = process.env.LARK_APP_SECRET || 'BMdZmUVSCztTo4o78CbkfgEXtN4RAbWo';
 const LARK_BASE_APP_TOKEN = process.env.LARK_BASE_APP_TOKEN || 'FCEIbp9UPag1edsHp6elhUQhgqb'; // :app_token của Base
 const LARK_TABLE_ID = process.env.LARK_TABLE_ID || 'tblUi2kEEStEEX0t'; // :table_id của Bảng
 // const SERVERLESS_API_KEY = process.env.SERVERLESS_API_KEY; // Tùy chọn
