@@ -90,6 +90,8 @@ function transformDataForLark(webDemoDataArray: any[]): Array<{ fields: Record<s
             "Price" : formatCurrency(Number(priceRaw)),
             "Room Type": String(element[5] || ''),
             "Status Order": String(element[12] ? element[12] : 'Confirmed'),
+            "Cancellation Fee": cancelFeeRaw != null ? parseFloat(String(cancelFeeRaw).replace(/,/g, '')) : null,
+
             //  "Platform": String(element[1] || ''),
             //  "Guest Name": String(element[10] || ''),
             //  "14Checking in Date auto": checkInTimestamp ? new Date(checkInTimestamp * 1000).getTime() : null,
