@@ -1,22 +1,12 @@
-
-
-
-
-
-
-
-
-// Đặt file này trong thư mục api của dự án Vercel, ví dụ: api/sync-to-lark.ts
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import fetch from 'node-fetch'; // yarn add node-fetch@2 hoặc npm install node-fetch@2
 
 // --- CẤU HÌNH BIẾN MÔI TRƯỜNG TRÊN VERCEL ---
-// Lưu trữ các giá trị này dưới dạng Environment Variables trên Vercel để bảo mật
+
 const LARK_APP_ID = process.env.LARK_APP_ID || 'cli_a760fa9069b85010';
 const LARK_APP_SECRET = process.env.LARK_APP_SECRET || 'BMdZmUVSCztTo4o78CbkfgEXtN4RAbWo';
 const LARK_BASE_APP_TOKEN = process.env.LARK_BASE_APP_TOKEN || 'FCEIbp9UPag1edsHp6elhUQhgqb'; // :app_token của Base
 const LARK_TABLE_ID = process.env.LARK_TABLE_ID || 'tblUi2kEEStEEX0t'; // :table_id của Bảng
-// const SERVERLESS_API_KEY = process.env.SERVERLESS_API_KEY; // Tùy chọn
 // --- KẾT THÚC CẤU HÌNH ---
 
 async function getLarkTenantAccessToken(): Promise<string | null> {
@@ -68,20 +58,11 @@ function transformDataForLark(webDemoDataArray: any[]): Array<{ fields: Record<s
             return null;
         }
 
-        const checkInTimestamp = element[7] ? Number(element[7]) : null;
-        const checkOutTimestamp = element[8] ? Number(element[8]) : null;
-        //const bookingTimestamp = element[6] ? Number(element[6]) : null;
-        const totalNightsCalculated = calculateTotalNights(checkInTimestamp, checkOutTimestamp);
-        const priceRaw = element[9];
         const cancelFeeRaw = element[4];
+        const priceRaw = element[9];
 
         const fieldsForLark: Record<string, any> = {
-            // --- THAY THẾ CÁC KEY DƯỚI ĐÂY BẰNG TÊN CỘT HOẶC FIELD ID TRONG LARK BASE CỦA BẠN ---
-            // Đảm bảo kiểu dữ liệu phù hợp với cột trong Lark Base
 
-            //"Plafform" : Number(element[1]),
-            //"52. Order Number": String(element[0] || ''), // Giả sử đây là Tên Cột trong Lark Base
-            //"Guest Name" : String(element[10] || ''),
              "Plafform": String(element[1] || ''),
             "52. Order Number": String(element[0] || ''),
             "Guest Name": String(element[10] || ''),
@@ -94,22 +75,8 @@ function transformDataForLark(webDemoDataArray: any[]): Array<{ fields: Record<s
             "Booking Time" :String(getDay(element[6])),
             "RoomID" : String(element[11] || ''),
             "Phone": String(element[2] || ''),
+            "Total Night": String(calculateTotalNights(getDay(element[7]), getDay(element[8]))),
 
-            //  "Platform": String(element[1] || ''),
-            //  "Guest Name": String(element[10] || ''),
-            //  "14Checking in Date auto": checkInTimestamp ? new Date(checkInTimestamp * 1000).getTime() : null,
-            //  "24.Total Amount auto": priceRaw,
-             //"Check Out": checkoutTimestamp ? new Date(checkoutTimestamp * 1000).getTime() : null,
-            // "Total Nights": totalNightsCalculated === '' ? null : Number(totalNightsCalculated),
-            // "Phone": String(element[2] || ''),
-            // "Price (VND)": priceRaw != null ? parseFloat(String(priceRaw).replace(/,/g, '')) : null,
-            // "Room Type": String(element[5] || ''),
-            // "Status Order": String(element[12] ? element[12] : 'Confirmed'),
-            // "Cancellation Fee (VND)": cancelFeeRaw != null ? parseFloat(String(cancelFeeRaw).replace(/,/g, '')) : null,
-            // "Booking Time": bookingTimestamp ? new Date(bookingTimestamp * 1000).getTime() : null,
-            // "Room ID": String(element[11] || ''),
-            // "Price Per Night (VND)": /* tính toán nếu cần */,
-            // --- KẾT THÚC PHẦN CẦN THAY THẾ ---
         };
         
         const cleanedFields: Record<string, any> = {};
@@ -124,8 +91,7 @@ function transformDataForLark(webDemoDataArray: any[]): Array<{ fields: Record<s
         }
          if (Object.keys(cleanedFields).length === 0 && Object.keys(fieldsForLark).length > 0) {
             console.warn(`[SLS_LOG] transformDataForLark: Bản ghi ở index ${index} không có trường nào có giá trị sau khi làm sạch, nhưng có trường ban đầu.`);
-            // Bạn có thể quyết định vẫn giữ lại bản ghi rỗng nếu muốn, hoặc bỏ qua như hiện tại
-            // return { fields: {} }; // Nếu muốn gửi bản ghi rỗng để tạo dòng
+
          }
          if (Object.keys(cleanedFields).length === 0) return null;
 
@@ -229,29 +195,55 @@ function getDay (timestampInSeconds) {
     return `${year}-${month}-${day}`;
 }
 
-function calculateTotalNights(checkinTimestamp: number | null | undefined, checkoutTimestamp: number | null | undefined): number | '' {
-    if (checkinTimestamp === null || checkinTimestamp === undefined || checkoutTimestamp === null || checkoutTimestamp === undefined) return '';
-    const numCheckin = Number(checkinTimestamp);
-    const numCheckout = Number(checkoutTimestamp);
-    if (isNaN(numCheckin) || isNaN(numCheckout)) return '';
+// function calculateTotalNights(checkinTimestamp){
+//     if (checkinTimestamp === null || checkinTimestamp === undefined || checkoutTimestamp === null || checkoutTimestamp === undefined) return '';
+//     const numCheckin = Number(checkinTimestamp);
+//     const numCheckout = Number(checkoutTimestamp);
+//     if (isNaN(numCheckin) || isNaN(numCheckout)) return '';
 
-    try {
-        const checkinDate = new Date(numCheckin * 1000);
-        const checkoutDate = new Date(numCheckout * 1000);
-        if (isNaN(checkinDate.getTime()) || isNaN(checkoutDate.getTime())) return '';
+//     try {
+//         const checkinDate = new Date(numCheckin * 1000);
+//         const checkoutDate = new Date(numCheckout * 1000);
+//         if (isNaN(checkinDate.getTime()) || isNaN(checkoutDate.getTime())) return '';
+//         checkinDate.setHours(12, 0, 0, 0);
+//         checkoutDate.setHours(12, 0, 0, 0);
+//         const diffTime = checkoutDate.getTime() - checkinDate.getTime();
+//         if (diffTime < 0) {
+//             // console.warn("[SLS_LOG] calculateTotalNights: Ngày check-out trước ngày check-in.");
+//             return '';
+//         }
+//         const diffNights = Math.round(diffTime / (1000 * 60 * 60 * 24));
+//         return diffNights;
+//     } catch (e: any) {
+//         // console.error("[SLS_LOG] calculateTotalNights: Lỗi khi tính số đêm:", e.message);
+//         return '';
+//     }
+// }
+
+
+function calculateTotalNights(checkinTimestamp, checkoutTimestamp) {
+      if (!checkinTimestamp || !checkoutTimestamp) {
+        return '';
+      }
+      try {
+        const checkinDate = new Date(checkinTimestamp * 1000);
+        const checkoutDate = new Date(checkoutTimestamp * 1000);
+
+        if (isNaN(checkinDate.getTime()) || isNaN(checkoutDate.getTime())) {
+           // console.warn("Invalid date for night calculation:", checkinTimestamp, checkoutTimestamp);
+           return '';
+        }
+        // Đặt giờ về trưa để tránh lỗi lệch múi giờ khi tính ngày
         checkinDate.setHours(12, 0, 0, 0);
         checkoutDate.setHours(12, 0, 0, 0);
         const diffTime = checkoutDate.getTime() - checkinDate.getTime();
-        if (diffTime < 0) {
-            // console.warn("[SLS_LOG] calculateTotalNights: Ngày check-out trước ngày check-in.");
-            return '';
-        }
+        if (diffTime < 0) return ''; // Ngày check-out trước ngày check-in
         const diffNights = Math.round(diffTime / (1000 * 60 * 60 * 24));
-        return diffNights;
-    } catch (e: any) {
-        // console.error("[SLS_LOG] calculateTotalNights: Lỗi khi tính số đêm:", e.message);
+        return diffNights; // Sẽ trả về 0 nếu cùng ngày
+      } catch (e) {
+        // console.error("Error calculating nights:", e);
         return '';
-    }
+      }
 }
 
 
