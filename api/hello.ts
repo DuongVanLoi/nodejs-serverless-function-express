@@ -349,7 +349,11 @@ function transformDataForLark(webDemoDataArray: any[]): Array<{ fields: Record<s
         const fieldsForLark: Record<string, any> = {
             // --- THAY THẾ CÁC KEY DƯỚI ĐÂY BẰNG TÊN CỘT HOẶC FIELD ID TRONG LARK BASE CỦA BẠN ---
             // Đảm bảo kiểu dữ liệu phù hợp với cột trong Lark Base
+
+            "Plafform" : Number(element[1]),
             "52. Order Number": String(element[0] || ''), // Giả sử đây là Tên Cột trong Lark Base
+            "Guest Name" : String(element[10] || '')
+
             // "Platform": String(element[1] || ''),
             // "Guest Name": String(element[10] || ''),
             // "Check In": checkInTimestamp ? new Date(checkInTimestamp * 1000).getTime() : null,
