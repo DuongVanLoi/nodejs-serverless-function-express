@@ -85,6 +85,8 @@ function transformDataForLark(webDemoDataArray: any[]): Array<{ fields: Record<s
              "Plafform": String(element[1] || ''),
             "52. Order Number": String(element[0] || ''),
             "Guest Name": String(element[10] || ''),
+            "Check In" : String(getDay(element[7])),
+            "Check Out" : String(getDay(element[8])),
             //  "Platform": String(element[1] || ''),
             //  "Guest Name": String(element[10] || ''),
             //  "14Checking in Date auto": checkInTimestamp ? new Date(checkInTimestamp * 1000).getTime() : null,
@@ -178,12 +180,23 @@ async function sendDataToLarkBase(accessToken: string, records: Array<{ fields: 
     }
 }
 
-function getDay(timestampInSeconds: number | null | undefined): string | null {
-    if (timestampInSeconds === null || timestampInSeconds === undefined || timestampInSeconds === 0) return null;
-    const numTimestamp = Number(timestampInSeconds);
-    if (isNaN(numTimestamp)) return null;
-    const date = new Date(numTimestamp * 1000);
-    if (isNaN(date.getTime())) return null;
+// function getDay(timestampInSeconds: number | null | undefined): string | null {
+//     if (timestampInSeconds === null || timestampInSeconds === undefined || timestampInSeconds === 0) return null;
+//     const numTimestamp = Number(timestampInSeconds);
+//     if (isNaN(numTimestamp)) return null;
+//     const date = new Date(numTimestamp * 1000);
+//     if (isNaN(date.getTime())) return null;
+//     const year = date.getFullYear();
+//     const month = String(date.getMonth() + 1).padStart(2, '0');
+//     const day = String(date.getDate()).padStart(2, '0');
+//     return `${year}-${month}-${day}`;
+// }
+
+
+function getDay (timestampInSeconds) {
+    if (!timestampInSeconds) return '';
+    const date = new Date(timestampInSeconds * 1000);
+    if (isNaN(date.getTime())) return '';
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
