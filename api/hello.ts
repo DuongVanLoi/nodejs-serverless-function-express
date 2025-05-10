@@ -353,7 +353,7 @@ function transformDataForLark(webDemoDataArray: any[]): Array<{ fields: Record<s
             //"Plafform" : Number(element[1]),
             //"52. Order Number": String(element[0] || ''), // Giả sử đây là Tên Cột trong Lark Base
             //"Guest Name" : String(element[10] || ''),
-             "Platform": String(element[1] || ''),
+             "Plafform": String(element[1] || ''),
             "52. Order Number": String(element[0] || ''),
             "Guest Name": String(element[10] || ''),
             //  "Platform": String(element[1] || ''),
