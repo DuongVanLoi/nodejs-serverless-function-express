@@ -60,6 +60,8 @@ function transformDataForLark(webDemoDataArray: any[]): Array<{ fields: Record<s
 
         const cancelFeeRaw = element[4];
         const priceRaw = element[9];
+        const totalnight = calculateTotalNights(element[7], element[8]);
+        const pricenight = formatCurrency(priceRaw/Number(totalnight));
 
         const fieldsForLark: Record<string, any> = {
 
@@ -75,7 +77,8 @@ function transformDataForLark(webDemoDataArray: any[]): Array<{ fields: Record<s
             "Booking Time" :String(getDay(element[6])),
             "RoomID" : String(element[11] || ''),
             "Phone": String(element[2] || ''),
-            "Total Night": String(calculateTotalNights(getDay(element[7]), getDay(element[8]))),
+            "Total Night": String(totalnight),
+            "Price One Night": String(pricenight),
 
         };
         
