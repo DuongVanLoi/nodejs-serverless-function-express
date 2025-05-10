@@ -70,7 +70,7 @@ function transformDataForLark(webDemoDataArray: any[]): Array<{ fields: Record<s
 
         const checkInTimestamp = element[7] ? Number(element[7]) : null;
         const checkOutTimestamp = element[8] ? Number(element[8]) : null;
-        const bookingTimestamp = element[6] ? Number(element[6]) : null;
+        //const bookingTimestamp = element[6] ? Number(element[6]) : null;
         const totalNightsCalculated = calculateTotalNights(checkInTimestamp, checkOutTimestamp);
         const priceRaw = element[9];
         const cancelFeeRaw = element[4];
