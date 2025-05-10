@@ -357,7 +357,7 @@ function transformDataForLark(webDemoDataArray: any[]): Array<{ fields: Record<s
             //  "Platform": String(element[1] || ''),
             //  "Guest Name": String(element[10] || ''),
              "14Checking in Date auto": checkInTimestamp ? new Date(checkInTimestamp * 1000).getTime() : null,
-             "24.Total Amount auto": priceRaw != null ? parseFloat(String(priceRaw).replace(/,/g, '')) : null,
+             "24.Total Amount auto": priceRaw,
              //"Check Out": checkoutTimestamp ? new Date(checkoutTimestamp * 1000).getTime() : null,
             // "Total Nights": totalNightsCalculated === '' ? null : Number(totalNightsCalculated),
             // "Phone": String(element[2] || ''),
