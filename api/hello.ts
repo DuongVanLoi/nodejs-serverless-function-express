@@ -1659,7 +1659,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 //        needsUpdate = true;
                 //     }
                 // }
-
+                // So sánh Price
+                const webPrice = webFields[LARK_COL_PRICE]; 
+                const larkPrice = formatCurrency(existingLarkRecord.fields[LARK_COL_PRICE]); 
+            
+                if (webPrice !== larkPrice) {
+                    fieldsToPotentiallyUpdate[LARK_COL_PRICE] = webPrice; 
+                    needsUpdate = true;
+                }
 
                 if (needsUpdate && Object.keys(fieldsToPotentiallyUpdate).length > 0) {
                     recordsToUpdate.push({
