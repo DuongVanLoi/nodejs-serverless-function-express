@@ -1305,6 +1305,7 @@ async function getAllExistingLarkRecords(accessToken: string): Promise<Record<st
         LARK_COL_ORDER_NUMBER,
         LARK_COL_STATUS_ORDER,
         LARK_COL_CANCEL_FEE,
+        LARK_COL_PRICE,
         // Thêm các trường khác nếu bạn muốn cập nhật chúng dựa trên logic khác
     ];
     const fieldNamesParam = JSON.stringify(fieldsToFetch);
